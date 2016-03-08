@@ -1,0 +1,7 @@
+name = Gameloft Assets
+description = Creates the File Asset Manager
+package = Gameloft
+core = 7.x
+dependencies[] = file_entity
+
+; files that are bootstraped by drupal files[]=

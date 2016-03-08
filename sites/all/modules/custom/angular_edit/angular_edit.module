@@ -1,0 +1,82 @@
+<?php
+
+/**
+* Implements hook_permission.
+*/
+function angular_edit_permission() {
+  return array(
+    'admin angular_edit' => array(
+      'title' => t('Administer Angular Edit')
+    )
+  );
+}
+
+/**
+* Implements hook_menu. Creates menu paths.
+*/
+function angular_edit_menu() {
+  $items['angular/edit'] = array(
+    'title' => t('Manage Content'),
+    'page callback' => 'angular_edit_display',
+    'access arguments' => array('admin angular_edit'),
+    'file' => 'includes/angular_edit.page.inc'
+  );
+
+  $items['angular/edit/%'] = array(
+    'title callback' => 'angular_editor_title',
+    'title arguments' => array(2),
+    'page callback' => 'angular_edit_display',
+    'page arguments' => array(2),
+    'access arguments' => array('admin angular_edit'),
+    'file' => 'includes/angular_edit.page.inc'
+  );
+
+  $items['js/angular_edit/entity/%/index'] = array(
+    'page callback' => 'angular_edit_js_index',
+    'page arguments' => array(3),
+    'file' => 'includes/angular_edit.page.inc'
+  );
+
+  $items['js/angular_edit/entity/%/post'] = array(
+    'page callback' => 'angular_edit_js_post',
+    'page arguments' => array(3),
+    'file' => 'includes/angular_edit.page.inc'
+  );
+
+  return $items;
+}
+
+/**
+* Implements hook_theme.
+*/
+function angular_edit_theme($existing, $type, $theme, $path) {
+  $info['angular_edit_display'] = array(
+    'variables' => array(
+      'entity_type' => NULL,
+    ),
+    'template' => 'angular-editor',
+    'path' => $path . '/templates'
+  );
+  return $info;
+}
+
+/**
+* Theme callback function for angular_edit_display
+*/
+function template_preprocess_angular_edit_display(&$variables) {
+  $module_path = drupal_get_path('module', 'angular_edit');
+  $library_path = '/sites/all/libraries';
+
+  drupal_add_js($library_path . '/angular/angular.min.js', 'file');
+  drupal_add_js($library_path . '/angular/angular-route.min.js', 'file');
+  drupal_add_js($library_path . '/angular/angular-sanitize.min.js', 'file');
+
+}
+
+/**
+* Title callback for editor page.
+*/
+function angular_editor_title($entity_type) {
+  $info = entity_get_info($entity_type);
+  return strip_tags (t('Manage %entity_type', array('%entity_type' => $info['label'] ) ) );
+}

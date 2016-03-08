@@ -1,0 +1,94 @@
+<?php
+
+/*
+* Implements hook_permission
+* - Creates the access permissions to our explorer.
+*/
+function gameloft_assets_permission() {
+  return array(
+    'access asset_manager' => array(
+      'title' => t('Access Asset Manager')
+    )
+  );
+}
+
+/**
+* Implements hook_menu.
+* - Defines the pages that our application will use.
+*/
+function gameloft_assets_menu() {
+
+  $items['admin/gameloft/assets'] = array(
+    'title' => t('Asset Manager'),
+    'page callback' => 'gameloft_assets_manager',
+    'access arguments' => array('access asset_manager'),
+    'file' => 'includes/gameloft_assets.page.inc',
+    'type' => MENU_NORMAL_ITEM
+  );
+
+  $items['api/gameloft/site/index'] = array(
+    'page callback' => 'gameloft_assets_site_index',
+    'access arguments' => array('access asset_manager'),
+    'file' => 'includes/gameloft_assets.page.inc',
+  );
+
+  $items['api/gameloft/region/index'] = array(
+    'page callback' => 'gameloft_assets_region_index',
+    'access arguments' => array('access asset_manager'),
+    'file' => 'includes/gameloft_assets.page.inc',
+  );
+
+  $items['api/gameloft/language/index'] = array(
+    'page callback' => 'gameloft_assets_language_index',
+    'access arguments' => array('access asset_manager'),
+    'file' => 'includes/gameloft_assets.page.inc',
+  );
+
+  $items['api/gameloft/file/index'] = array(
+    'page callback' => 'gameloft_assets_file_index',
+    'access arguments' => array('access asset_manager'),
+    'file' => 'includes/gameloft_assets.page.inc',
+  );
+
+  $items['api/gameloft/file/post'] = array(
+    'page callback' => 'gameloft_assets_file_post',
+    'access arguments' => array('access asset_manager'),
+    'file' => 'includes/gameloft_assets.page.inc',
+  );
+
+  $items['api/gameloft/file/types'] = array(
+    'page callback' => 'gameloft_assets_file_types',
+    'access arguments' => array('access asset_manager'),
+    'file' => 'includes/gameloft_assets.page.inc',
+  );
+
+  return $items;
+}
+
+/**
+* Implements hook_theme
+*/
+function gameloft_assets_theme($existing, $type, $theme, $path) {
+  $info['gameloft_filemanager'] = array(
+    'variables' => array(
+      'site' => NULL,
+      'language' => NULL,
+      'region' => NULL,
+      'type' => NULL
+    ),
+    'template' => 'gameloft-filemanager',
+    'path' => $path . '/templates'
+  );
+  return $info;
+}
+
+function template_preprocess_gameloft_filemanager(&$variables) {
+  $path = drupal_get_path('module', 'gameloft_assets');
+  $library_path = "/sites/all/libraries";
+
+  drupal_add_js($library_path . '/angular/angular.min.js', 'file');
+  drupal_add_js($path . '/app/gameloftAssetManager.app.js');
+
+  $variables['site'] = !isset($variables['site']) ? 'gameloft.com' : $variables['site'];
+
+}

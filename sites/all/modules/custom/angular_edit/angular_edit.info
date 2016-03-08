@@ -1,0 +1,4 @@
+name = Angular Editor
+description = Uses angular to create a inline editing interface.
+package = Gameloft
+core = 7.x
