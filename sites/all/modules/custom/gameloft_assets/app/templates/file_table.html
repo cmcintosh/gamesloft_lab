@@ -1,14 +1,24 @@
-<table>
-  <thead>
-    <tr>
-      <td>Filename</td> <td>Site(s)</td> <td>Region(s)</td> <td>Created</td> <td>Updated</td> <td>Actions</td>
-    </tr>
-  </thead>
-  <tr ng-repeat="file in files track by $index">
-    <td><a ng-href="{file.url}" taregt="_blank">{{file.filename}}</a></td>
-    <td> </td>
-    <td>{{file.created}}</td>
-    <td>{{file.changed}}</td>
-    <td> </td>
-  </tr>
-</table>
+<div id="toolbar">
+  <div class="pull-left">
+    <a class="btn btn-info btn-small" href="#/upload">
+      <i class="fa fa-cloud-upload"></i>
+    </a>
+  </div>
+  <ul id="display-modes" class="pull-right">
+    <li ng-repeat="option in displayModes">
+      <button class="btn btn-info btn-small" title="{{option.title}}" ng-click="changeDisplay(option.id)">
+        <i class = "fa {{option.fa}}"></i>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div id="file-list">
+
+  <div class="wrapper">
+    <file-thumbnails ng-if="activeDisplay == 'thumb'"> </file-thumbnails>
+    <file-expanded ng-if ="activeDisplay =='expand'"> </file-expanded>
+    <file-list ng-if="activeDisplay =='list'"> </file-list>
+  </div>
+
+</div>

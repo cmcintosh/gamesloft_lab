@@ -5,3 +5,4 @@ core = 7.x
 dependencies[] = file_entity
 
 ; files that are bootstraped by drupal files[]=
+stylesheets[all][] = /sites/all/libraries/fa/css/font-awesome.css

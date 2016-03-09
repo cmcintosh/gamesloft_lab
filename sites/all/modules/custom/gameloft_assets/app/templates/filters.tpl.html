@@ -1,0 +1,9 @@
+<ul id="filters">
+  <li ng-repeat="filter in filters track by $index" ng-if="filter.options.length > 0">
+    <label>{{filter.label}}</label>
+
+    <select ng-options="i.value as (i.name) for i in filter.options" ng-model="activeFilter[filter.label]">
+      <option value="">-- Select a {{filter.label}} --</option>
+    </select>
+  </li>
+</ul>
