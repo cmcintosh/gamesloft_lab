@@ -65,6 +65,10 @@ function gameloft_assets_menu() {
   return $items;
 }
 
+function gameloft_assets_init() {
+  $library_path = "/sites/all/libraries";
+  drupal_add_css($library_path . '/fa/css/font-awesome.css');
+}
 /**
 * Implements hook_theme
 */
@@ -86,8 +90,24 @@ function template_preprocess_gameloft_filemanager(&$variables) {
   $path = drupal_get_path('module', 'gameloft_assets');
   $library_path = "/sites/all/libraries";
 
+  drupal_add_css($path . '/css/gameloft_assets.css');
   drupal_add_js($library_path . '/angular/angular.min.js', 'file');
-  drupal_add_js($path . '/app/gameloftAssetManager.app.js');
+  drupal_add_js($library_path . '/angular-route/angular-route.min.js', 'file');
+
+  $app_files = array(
+    '/app/gameloftAssetManager.app.js',
+    '/app/factory/File.factory.js',
+    '/app/factory/Filter.factory.js',
+    '/app/controller/gameloftAssetsCTRL.controller.js',
+    '/app/directives/fileTable.directive.js',
+    '/app/directives/fileThumbnails.directive.js',
+    '/app/directives/bnLazyLoad.directive.js',
+    '/app/directives/fileFilters.directive.js',
+  );
+
+  foreach($app_files as $file) {
+    drupal_add_js($path . $file, 'file');
+  }
 
   $variables['site'] = !isset($variables['site']) ? 'gameloft.com' : $variables['site'];
 

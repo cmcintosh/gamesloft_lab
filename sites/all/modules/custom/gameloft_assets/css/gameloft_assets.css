@@ -1,0 +1,56 @@
+#display-modes li,
+#filters li {
+  float:left;
+  display: inline-block;
+  list-style: none;
+  margin: 5px;
+}
+
+#filters {
+  width:100%;
+  box-shadow: 2px 2px 1px #555;
+  background: #ccc;
+  float: left;
+  display: block;
+}
+
+#toolbar {
+  width:100%;
+  float: left;
+  display: block;
+  margin-top: -5px;
+}
+
+#filters li label, #filters li select {
+  float:left;
+  width:100%;
+  font-size: 12px;
+  font-weight:normal;
+}
+
+/* Thumbnail display */
+.thumbnail-item {
+  float:left;
+  width:45%;
+  margin: 20px;
+}
+
+.thumbnail-item .thumbnail {
+  width:160px;
+  height:160px;
+  border-radius: 5px;
+  padding: 5px;
+  border:1px solid #ccc;
+  float: left;
+}
+
+.thumbnail-item .thumbnail img {
+  overflow: hidden;
+  max-height: 150px;
+  max-width:150px;
+}
+
+.thumbnail-item .details {
+  float:left;
+  margin-left: 10px;
+}

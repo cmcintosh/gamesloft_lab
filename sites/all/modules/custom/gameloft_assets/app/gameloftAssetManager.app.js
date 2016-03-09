@@ -1,47 +1,15 @@
-var app = angular.module('gameloftAssetManager', []);
-app.controller('gameloftAssetsCTRL', ['$scope', 'File', gameloftAssetsCTRL])
-  .directive('fileTable', [fileTableDirective])
-  .service('File', ['$q', '$http', fileFactory]);
+var app = angular.module('gameloftAssetManager', ['ngRoute']);
+var app_path = "/sites/all/modules/custom/gameloft_assets/app";
 
-
-function gameloftAssetsCTRL($scope, File) {
-  File.index().then(function(data){
-    $scope.files = data;
-  });
-}
-
-function fileTableDirective() {
-  return {
-    restrict: 'E',
-    templateURL: '/sites/all/modules/custom/gameloft_assets/app/template/file_table.html',
-
-  }
-}
-
-function fileFactory($q, $http) {
-  var resource = {
-    index: fileIndex,
-    types: fileTypes,
-    save: fileSave,
-  };
-
-  function fileIndex() {
-    var defer = $q.defer();
-
-    $http.get('/api/gameloft/file/index')
-      .success(function(data) {
-        defer.resolve(data.files);
-      })
-      .error(function(error){
-        defer.reject(error);
-      });
-
-    return defer.promise;
-  }
-
-  function fileTypes() { }
-
-  function fileSave(files) { }
-
-  return resource;
-}
+app.config(function($routeProvider) {
+  $routeProvider
+   .when('/explorer', {
+       templateUrl: app_path + "/templates/file_explorer.view.html",
+    })
+    .when('/upload', {
+      templateUrl: app_path + "/templates/file_upload.view.html",
+    })
+    .otherwise({
+        redirectTo: '/explorer'
+    });
+});

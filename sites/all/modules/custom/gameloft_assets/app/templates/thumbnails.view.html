@@ -1,0 +1,22 @@
+<div class="thumbnail-item" ng-repeat="file in files">
+  <label>{{file.filename}}</label>
+  <div class="actions">
+    <a href="#/file/{{file.fid}}/edit"><i class="fa fa-pencil"></i></a>
+    <a ng-if="file.type == 'image'" ng-click="imageZoom(file.url);"><i class="fa fa-picture"></i></a>
+    <a href="{{file.url}}" target="_blank" download><i class="fa fa-cloud-download"></i></a>
+  </div>
+
+  <div class="thumbnail">
+    <img ng-if="file.type == 'image'" bn-lazy-src="{{file.url}}" width="150" height="150"> </img>
+  </div>
+  <div class="details">
+    <div class="form-item">
+      <label>Site(s)</label>
+
+      <div class="tag" ng-repeat="item in file.field_site['und'] track by $index">
+        {{filters[0].options}} {{[item["tid"]]}}
+      </div>
+    </div>
+  </div>
+
+</div>
