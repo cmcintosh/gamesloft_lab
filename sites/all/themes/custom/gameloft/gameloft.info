@@ -1,0 +1,9 @@
+name = Gameloft
+description = Gameloft Training Theme
+core = 7.x
+screenshot = screenshot.png
+base theme = bootstrap
+
+stylesheets[all][] = css/screen.css
+stylesheets[all][] = css/print.css
+stylesheets[all][] = css/ie.css
