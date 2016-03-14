@@ -1,0 +1,10 @@
+<?php
+
+/**
+* step1_permission - Implements hook_permission
+*/
+function step1_permission() {
+  $info = array();
+
+  return $info;
+}

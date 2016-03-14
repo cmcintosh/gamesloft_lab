@@ -1,0 +1,170 @@
+<?php
+
+/**
+* step1_schema implements hook_schema.  The purpose of this module is to allow you to
+* Create database tables that will allow you to store and associate data required.
+* by your custom module.
+*
+* This Function will always contain the Newest version of your database structure.
+*/
+function step1_schema() {
+
+  $schema = array(); // Initialize our schema array.
+
+  /**
+  * Create a database table for a new entity.
+  */
+  $schema['example'] = array(
+    'description' => 'A simple description for our new database table.',
+    'fields' => array(
+      /**
+      * All fields are defined and described here.
+      */
+    ),
+    'primary key' => array(
+      /* The unique Identifier for our table */
+    ),
+    'unique key' => array(
+      /* Alternatively we can define unique key sets */
+      'vid' => array( 'vid' )
+    ),
+    'foreign keys' => array(
+      /* Foreign Keys are for documentation purposes, and are not actually created in the database. */
+    ),
+    'indexes' => array(
+      /* You can define which field(s) that should be a part of indexed data sets */
+      'node_frontpage'      => array('promote', 'status', 'sticky', 'created'),
+    )
+  );
+
+  return $schema;
+  /**
+  * Drupal will take the information returned and then use it to
+  * create a database table through it's Database abstraction layer.
+  * Currently Drupal 7 Supports the following database technologies:
+  *
+  * MySQL, MariaDB
+  * PostgreSQL
+  * SQLite
+  * Oracle (With PDO)
+  * Microsoft SQL (With PDO)
+  */
+}
+
+
+/**
+* step1_install - Implements hook_install.  This function is useful for steps you want
+* to perform only on the first time that a module is installed on your site.
+* This could be creation of specific data, settings, or other things that are needed.
+*/
+function step1_install() {
+  if (!field_info_field('field_myField')) {
+    // This hook is especially useful for creating fields to attach to entities.
+
+    /**
+    * Example of how to create a new {field base} of an existing {field type}.
+    */
+    $field = array(
+      'field_name' => 'field_step1',
+      'type' => 'text',
+    );
+    field_create_field($field);
+
+  }
+}
+
+/**
+* step1_enable - Implements hook_enable.  This function is useful for steps that you want to
+* perform any time your module is enabled on a system.
+*/
+function step1_enable() {
+
+
+    if (field_info_instance('user', 'field_step1', 'user') == NULL ) {
+      /**
+      * Create a {field instance} of our {field base}
+      */
+      $instance = array(
+        'field_name' => 'field_step1',
+        'entity_type' => 'user',
+        'label' => 'My Field Name',
+        'bundle' => 'user',
+        // You can set the field to Required or Not, the required setting defaults to FALSE
+        'required' => TRUE,
+        'settings' => array(
+          // You can set this field to be displayed on the Registration form.
+          'user_register_form' => 1,
+        ),
+        'widget' => array(
+          'type' => 'textfield',
+        ),
+      );
+      field_create_instance($instance);
+    }
+
+}
+
+/**
+* step1_uninstall - Implements hook_uninstall.  This function is useful for steps you want
+* to only run when you module is uninstalled from the site.
+*/
+function step1_uninstall() {
+
+  /**
+  * Removing no longer needed data.
+  */
+  if (field_info_field('field_step1')) {
+
+    /**
+    * Deletes all instances of the field, and the field base from the database.
+    */
+    field_delete_field('field_step1');
+
+  }
+
+}
+
+/**
+* step1_disable - Implements hook_disable.  This function is useful for steps you want
+* to run whenever your module is disabled.
+*/
+function step1_disable() {
+
+  /**
+  * Warn the user that the field still exists until we uninstall the module.
+  */
+  drupal_set_message('Warning, field_step1 still exists and will only be removed when you uninstall the module.');
+
+}
+
+/**
+* step1_requirements - Implements hook_requirements.  This function is useful for wehn you want
+* to run checks for required libraries on the system your module is being installed on.
+*
+* - phase : install, update, runtime.  When the check on requirements is being performed.
+*
+* Return Value: an associative array,
+*
+* title:       The name of the requirement.
+* value:       The current value (e.g., version, time, level, etc). During install phase,
+*              this should only be used for version numbers, do not set it if not applicable.
+* description: The description of the requirement/status.
+* severity:    The requirement's result/severity level, one of:
+*   REQUIREMENT_INFO: For info only.
+*   REQUIREMENT_OK: The requirement is satisfied.
+*   REQUIREMENT_WARNING: The requirement failed with a warning.
+*   REQUIREMENT_ERROR: The requirement failed with an error.
+*/
+function step1_requirements($phase) {
+
+  $requirements['php'] = array(
+    'title' => $t('PHP'),
+    'value' => ($phase == 'runtime') ? l(phpversion(), 'admin/reports/status/php') : phpversion(),
+  );
+  if (version_compare(phpversion(), DRUPAL_MINIMUM_PHP) < 0) {
+    $requirements['php']['description'] = $t('Your PHP installation is too old.
+      Drupal requires at least PHP %version.', array('%version' => DRUPAL_MINIMUM_PHP));
+    $requirements['php']['severity'] = REQUIREMENT_ERROR;
+  }
+
+}
