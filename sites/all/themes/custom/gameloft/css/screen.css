@@ -11730,3 +11730,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 .fa-medium:before {
   content: "";
 }
+
+/* line 14, ../scss/screen.scss */
+.view-game-showcase .views-row {
+  float: left;
+  width: auto;
+  background: #fff;
+  border: 0px;
+  margin: 5px;
+  display: inline-block;
+}

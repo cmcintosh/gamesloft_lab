@@ -7,3 +7,6 @@ base theme = bootstrap
 stylesheets[all][] = css/screen.css
 stylesheets[all][] = css/print.css
 stylesheets[all][] = css/ie.css
+
+scripts[] = https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.js
+scripts[] = js/script.js
